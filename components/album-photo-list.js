@@ -1,7 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import { Text, View, FlatList, Image } from 'react-native';
-import { List, ListItem, SearchBar } from "react-native-elements";
+import { List, ListItem } from "react-native-elements";
+import PhotoList from "./photo-list.js"
 
 class AlbumPhotoList extends React.Component {
 
@@ -44,8 +45,8 @@ class AlbumPhotoList extends React.Component {
                         renderItem={({ item }) => (
                             <ListItem 
                                 title={item.title._content}
-                                onPress={({item}) => {
-                                    showPhotosOfAlbum(item.id);
+                                onPress={() => {
+                                    this.showPhotosOfAlbum(item.id); 
                                 }}
                             />
                         )}
