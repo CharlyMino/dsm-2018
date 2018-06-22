@@ -27,22 +27,23 @@ class App extends React.Component {
   render() {
     if(!this.state.photos){
 			return (
-					<div>
-						<img src={logo} className="App-logo" alt="loading" />
-						<br/>
-						Loading...
-					</div>
-				);
+        <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+          <Text>Coming soon...</Text>
+        </View>
+      );
 		}
     return (
       <List>
         <FlatList 
           data = {this.state.photos}
           renderItem= {({ item }) => 
-            {
-              console.log(item);
-              
-            }
+          <ListItem
+              roundAvatar
+              title={`${item.name.first} ${item.name.last}`}
+              subtitle={item.email}
+              avatar={{ uri: item.picture.thumbnail }}
+              containerStyle={{ borderBottomWidth: 0 }}
+          />
 
           }
         />
