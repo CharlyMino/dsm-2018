@@ -1,17 +1,56 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import axios from 'axios';
+import { StyleSheet, Text, View, FlatList } from 'react-native';
+import { List, ListItem, SearchBar } from "react-native-elements";
 
-export default class App extends React.Component {
+class App extends React.Component {
+  
+  constructor(props) {
+    super(props);
+    this.state = {photos:null};
+  }
+  
+  componentDidMount() { 
+      axios.get('https://api.flickr.com/services/rest/?method=flickr.photosets.getPhotos&api_key=6e8a597cb502b7b95dbd46a46e25db8d&photoset_id=72157660115185712&user_id=137290658%40N08&format=json&nojsoncallback=1') 
+      .then(({data}) =>  	
+        {   console.log(data.photoset);
+          this.setState({
+          photos:data.photoset.photo
+          });
+        }
+      ) 
+      .catch(function (error) { 	
+        console.log(error); 
+      }); 
+    } 
+
   render() {
+    if(!this.state.photos){
+			return (
+					<div>
+						<img src={logo} className="App-logo" alt="loading" />
+						<br/>
+						Loading...
+					</div>
+				);
+		}
     return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
-      </View>
+      <List>
+        <FlatList 
+          data = {this.state.photos}
+          renderItem= {({ item }) => 
+            {
+              console.log(item);
+              
+            }
+
+          }
+        />
+      </List>
     );
   }
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -21,3 +60,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+export default App;
